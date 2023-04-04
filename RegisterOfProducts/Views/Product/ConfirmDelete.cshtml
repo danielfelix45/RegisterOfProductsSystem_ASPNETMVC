@@ -1,0 +1,10 @@
+﻿@model ProductModel
+@{
+    ViewData["Title"] = "Confirm Delete Product";
+}
+
+<div class="text-center">
+    <h3>Do you really want to delete the product (@Model.Name)?</h3>
+</div>
+<a role="button" class="btn btn-danger w-100 " asp-route-id="@Model.Id" asp-controller="Product" asp-action="Delete">Confirm delete</a>
+<a role="button" class="btn btn-secondary w-100 mt-1" asp-controller="Product" asp-action="Index">Cancel delete</a>
