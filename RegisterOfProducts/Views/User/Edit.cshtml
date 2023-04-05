@@ -1,0 +1,41 @@
+﻿@using RegisterOfProducts.Enums;
+@model UserModel
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<div class="text-center">
+    <h3 class="display-4">Edit User</h3>
+</div>
+
+<form asp-controller="User" asp-action="Edit" method="post">
+
+    <input type="hidden" asp-for="Id"/>
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" asp-for="Name" placeholder="Enter username">
+        @Html.ValidationMessageFor(x => x.Name)
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">E-mail</label>
+        <input type="email" class="form-control" asp-for="Email" placeholder="Enter the user email">
+        @Html.ValidationMessageFor(x => x.Email)
+    </div>
+    <div class="mb-3">
+        <label for="login" class="form-label">Login</label>
+        <input type="tel" class="form-control" asp-for="Login" placeholder="Enter user login">
+        @Html.ValidationMessageFor(x => x.Login)
+    </div>
+    <div class="mb-3">
+        <label for="profile" class="form-label">Profile</label>
+        <select asp-for="Profile" class="form-control">
+            <option value="">Select</option>
+            <option value="@ProfileEnum.Admin">Administrator</option>
+            <option value="@ProfileEnum.Standard">Standard</option>
+        </select>
+        @Html.ValidationMessageFor(x => x.Profile)
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Edit</button>
+    <a role="button" class="btn btn-secondary w-100 mt-1" asp-controller="User" asp-action="Index">Return</a>
+</form>

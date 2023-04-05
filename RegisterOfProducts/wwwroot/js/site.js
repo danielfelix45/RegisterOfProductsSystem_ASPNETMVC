@@ -6,3 +6,5 @@
 $('.close-alert').click(function () {
     $('.alert').hide('hide');
 });
+
+let table = new DataTable('#table-products, #table-users');
