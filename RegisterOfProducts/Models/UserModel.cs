@@ -23,5 +23,10 @@ namespace RegisterOfProducts.Models
         public ProfileEnum Profile { get; set; }
         public DateTime DateRegister { get; set; }
         public DateTime? DateUpdate { get; set; }
+
+        public bool ValidPassword(string password)
+        {
+            return Password == password;
+        }
     }
 }

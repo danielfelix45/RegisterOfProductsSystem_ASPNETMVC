@@ -16,6 +16,11 @@ namespace RegisterOfProducts.Repository
             return _context.Users.ToList();
         }
 
+        public UserModel GetByLogin(string login)
+        {
+            return _context.Users.FirstOrDefault(x => x.Login.ToUpper() == login.ToUpper());
+        }
+
         public UserModel GetById(int id)
         {
             return _context.Users.FirstOrDefault(x => x.Id == id);
@@ -56,5 +61,7 @@ namespace RegisterOfProducts.Repository
             _context.SaveChanges();
             return true;
         }
+
+        
     }
 }

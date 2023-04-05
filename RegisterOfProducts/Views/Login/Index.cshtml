@@ -1,0 +1,37 @@
+﻿@model LoginModel
+@{
+    Layout = "_LayoutLogin";
+    ViewData["Title"] = "Login";
+}
+
+@if (TempData["MensagemErro"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["MensagemErro"]
+    </div>
+}
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["MensagemSucesso"]
+    </div>
+}
+
+<form asp-controller="Login" asp-action="ToEnter" method="post">
+    <div class="mb-3">
+        <label for="login" class="login">Login</label>
+        <input type="text" asp-for="Login" class="form-control" id="login">
+        @Html.ValidationMessageFor(x => x.Login)
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" asp-for="Password" class="form-control" id="password">
+        @Html.ValidationMessageFor(x => x.Password)
+    </div>
+    <p class="mb-4 text-sm-start mx-auto">
+        Forgot your password?
+        <a class="text-primary fw-bold" asp-controller="Login" asp-action="ResetPassword">Reset my password</a>
+    </p>
+
+    <button type="submit" class="btn btn-primary w-100">Enter</button>
+</form>
