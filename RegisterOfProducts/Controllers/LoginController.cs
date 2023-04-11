@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RegisterOfProducts.Helper;
 using RegisterOfProducts.Models;
 using RegisterOfProducts.Repository;
 
@@ -7,12 +8,17 @@ namespace RegisterOfProducts.Controllers
     public class LoginController : Controller
     {
         private readonly IUserRepository _userRepository;
-        public LoginController(IUserRepository userRepository)
+        private readonly IUserSession _userSession;
+        public LoginController(IUserRepository userRepository, IUserSession userSession)
         {
             _userRepository = userRepository; 
+            _userSession = userSession;
         }
         public IActionResult Index()
         {
+            // If user is logged, redirect to Home page
+            if (_userSession.GetUserSession() != null) return RedirectToAction("Index", "Home");
+
             return View();
         }
 
@@ -27,6 +33,7 @@ namespace RegisterOfProducts.Controllers
                     {
                         if(user.ValidPassword(loginModel.Password))
                         {
+                            _userSession.CreateUserSession(user);
                             return RedirectToAction("Index", "Home");
                         }
                         TempData["ErrorMessagwe"] = "User password is invalid";
@@ -41,6 +48,12 @@ namespace RegisterOfProducts.Controllers
                 return RedirectToAction("Index");
             }
      
+        }
+
+        public IActionResult Logout()
+        {
+            _userSession.RemoveUserSession();
+            return RedirectToAction("Index", "Login");
         }
     }
 }

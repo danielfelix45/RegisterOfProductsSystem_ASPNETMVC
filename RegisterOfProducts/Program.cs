@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RegisterOfProducts.Data;
+using RegisterOfProducts.Helper;
 using RegisterOfProducts.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,8 +10,17 @@ builder.Services.AddControllersWithViews();
 
 // Configure DB
 builder.Services.AddDbContext<ProductDbContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserSession, UserSession>();
+builder.Services.AddSession(o =>
+{
+    o.Cookie.HttpOnly= true;
+    o.Cookie.IsEssential= true;
+});
 
 var app = builder.Build();
 
@@ -28,6 +38,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app .UseSession();
 
 app.MapControllerRoute(
     name: "default",
