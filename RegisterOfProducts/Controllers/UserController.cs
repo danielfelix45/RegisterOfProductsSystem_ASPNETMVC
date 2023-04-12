@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RegisterOfProducts.Filters;
 using RegisterOfProducts.Models;
 using RegisterOfProducts.Repository;
 
 namespace RegisterOfProducts.Controllers
 {
+    [AdminRestrictedPage]
     public class UserController : Controller
     {
         private readonly IUserRepository _userRepository;

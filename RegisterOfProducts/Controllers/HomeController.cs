@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RegisterOfProducts.Filters;
 using RegisterOfProducts.Models;
 using System.Diagnostics;
 
 namespace RegisterOfProducts.Controllers
 {
+    [LoggedUser]
     public class HomeController : Controller
     {
         public IActionResult Index()
