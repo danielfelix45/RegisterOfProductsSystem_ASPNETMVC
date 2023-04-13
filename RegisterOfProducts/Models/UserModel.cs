@@ -1,4 +1,5 @@
 ﻿using RegisterOfProducts.Enums;
+using RegisterOfProducts.Helper;
 using System.ComponentModel.DataAnnotations;
 
 namespace RegisterOfProducts.Models
@@ -26,7 +27,12 @@ namespace RegisterOfProducts.Models
 
         public bool ValidPassword(string password)
         {
-            return Password == password;
+            return Password == password.GenerateHash();
+        }
+
+        public void SetPasswordHash()
+        {
+            Password = Password.GenerateHash();
         }
     }
 }

@@ -22,6 +22,7 @@ namespace RegisterOfProducts.Controllers
             return View();
         }
 
+        [HttpPost]
         public IActionResult ToEnter(LoginModel loginModel)
         {
             try
@@ -36,7 +37,7 @@ namespace RegisterOfProducts.Controllers
                             _userSession.CreateUserSession(user);
                             return RedirectToAction("Index", "Home");
                         }
-                        TempData["ErrorMessagwe"] = "User password is invalid";
+                        TempData["ErrorMessage"] = "User password is invalid";
                     }
                     TempData["ErrorMessage"] = "User and/or password is invalid!";
                 }

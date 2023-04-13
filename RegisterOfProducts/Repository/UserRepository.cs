@@ -29,6 +29,7 @@ namespace RegisterOfProducts.Repository
         public UserModel ToAdd(UserModel user)
         {
             user.DateRegister = DateTime.Now;
+            user.SetPasswordHash(); 
             _context.Users.Add(user);
             _context.SaveChanges();
             return user;
