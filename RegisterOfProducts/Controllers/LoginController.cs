@@ -22,6 +22,17 @@ namespace RegisterOfProducts.Controllers
             return View();
         }
 
+        public IActionResult ResetPassword()
+        {
+            return View();
+        }
+
+        public IActionResult Logout()
+        {
+            _userSession.RemoveUserSession();
+            return RedirectToAction("Index", "Login");
+        }
+
         [HttpPost]
         public IActionResult ToEnter(LoginModel loginModel)
         {
@@ -51,10 +62,33 @@ namespace RegisterOfProducts.Controllers
      
         }
 
-        public IActionResult Logout()
+        [HttpPost]
+        public IActionResult SendLinkToResetPassword(ResetPasswordModel resetPasswordModel)
         {
-            _userSession.RemoveUserSession();
-            return RedirectToAction("Index", "Login");
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    UserModel user = _userRepository.GetByEmailAndLogin(resetPasswordModel.Email, resetPasswordModel.Login);
+                    if (user != null)
+                    {
+                        string newPassword = user.GenerateNewPassword();
+                        _userRepository.Update(user);
+                        TempData["SuccessMessage"] = "We have sent a new password to your registered email.";
+                        return RedirectToAction("Index", "Login");
+                    }
+                    TempData["ErrorMessage"] = "We were unable to reset your password, please verify the information you entered.";
+                }
+                return View("Index");
+            }
+            catch (Exception e)
+            {
+                TempData["ErrorMessage"] = $"Oops, Couldn't reset your password, try again, error detail: {e.Message}";
+                return RedirectToAction("Index");
+            }
+           
         }
+
+
     }
 }

@@ -16,6 +16,11 @@ namespace RegisterOfProducts.Repository
             return _context.Users.ToList();
         }
 
+        public UserModel GetByEmailAndLogin(string email, string login)
+        {
+            return _context.Users.FirstOrDefault(x => x.Email.ToUpper() == email.ToUpper() && x.Login.ToUpper() == login.ToUpper());
+        }
+
         public UserModel GetByLogin(string login)
         {
             return _context.Users.FirstOrDefault(x => x.Login.ToUpper() == login.ToUpper());
@@ -63,6 +68,5 @@ namespace RegisterOfProducts.Repository
             return true;
         }
 
-        
     }
 }

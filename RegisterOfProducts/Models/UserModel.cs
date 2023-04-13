@@ -29,10 +29,15 @@ namespace RegisterOfProducts.Models
         {
             return Password == password.GenerateHash();
         }
-
         public void SetPasswordHash()
         {
             Password = Password.GenerateHash();
+        }
+        public string GenerateNewPassword()
+        {
+            string newPassword = Guid.NewGuid().ToString().Substring(0, 8);
+            Password= newPassword.GenerateHash();
+            return newPassword;
         }
     }
 }
