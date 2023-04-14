@@ -67,6 +67,19 @@ namespace RegisterOfProducts.Repository
             _context.SaveChanges();
             return true;
         }
+        public UserModel ChangePassword(ChangePasswordModel changePasswordModel)
+        {
+            UserModel? userDB = GetById(changePasswordModel.Id);
+            if (userDB == null) throw new Exception("There was an error updating the password, user not found!");
+            if (!userDB.ValidPassword(changePasswordModel.CurrentPassword)) throw new Exception("Current password does not match!");
+            if (userDB.ValidPassword(changePasswordModel.NewPassword)) throw new Exception("New password must be different from current password");
 
+            userDB.SetNewPassword(changePasswordModel.NewPassword);
+            userDB.DateUpdate = DateTime.Now;
+
+            _context.Users.Update(userDB);
+            _context.SaveChanges();
+            return userDB;
+        }
     }
 }
