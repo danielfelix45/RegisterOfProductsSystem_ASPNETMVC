@@ -9,7 +9,7 @@ namespace RegisterOfProducts.Repository
         UserModel GetByLogin(string login);
         UserModel GetById(int id);
         UserModel ToAdd(UserModel user);
-        UserModel Update(UserModel user);
+        UserModel ToUpdate(UserModel user);
         bool Delete(int id);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace RegisterOfProducts.Models
 {
-    public class ResetPasswordModel
+    public class RedefinePasswordModel
     {
         [Required(ErrorMessage = "Enter Login")]
         public string Login { get; set; }

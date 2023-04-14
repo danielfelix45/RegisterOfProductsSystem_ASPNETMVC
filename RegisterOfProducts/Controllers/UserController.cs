@@ -75,7 +75,7 @@ namespace RegisterOfProducts.Controllers
                         Login = userWithoutPasswordModel.Login,
                         Profile = userWithoutPasswordModel.Profile
                     };
-                    user = _userRepository.Update(user);
+                    user = _userRepository.ToUpdate(user);
                     TempData["SuccessMessage"] = "User successfully altered";
                     return RedirectToAction("Index");
                 }
