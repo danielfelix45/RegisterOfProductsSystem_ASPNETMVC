@@ -40,7 +40,7 @@ namespace RegisterOfProducts.Repository
             return user;
         }
 
-        public UserModel Update(UserModel user)
+        public UserModel ToUpdate(UserModel user)
         {
             UserModel userDB = GetById(user.Id);
 

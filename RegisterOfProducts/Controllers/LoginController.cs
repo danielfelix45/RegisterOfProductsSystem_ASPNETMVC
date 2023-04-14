@@ -9,10 +9,12 @@ namespace RegisterOfProducts.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserSession _userSession;
-        public LoginController(IUserRepository userRepository, IUserSession userSession)
+        private readonly IEmail _email;
+        public LoginController(IUserRepository userRepository, IUserSession userSession, IEmail email)
         {
             _userRepository = userRepository; 
             _userSession = userSession;
+            _email = email;
         }
         public IActionResult Index()
         {
@@ -22,7 +24,7 @@ namespace RegisterOfProducts.Controllers
             return View();
         }
 
-        public IActionResult ResetPassword()
+        public IActionResult RedefinePassword()
         {
             return View();
         }
@@ -63,27 +65,37 @@ namespace RegisterOfProducts.Controllers
         }
 
         [HttpPost]
-        public IActionResult SendLinkToResetPassword(ResetPasswordModel resetPasswordModel)
+        public IActionResult SendLinkToRedefinePassword(RedefinePasswordModel redefinePasswordModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    UserModel user = _userRepository.GetByEmailAndLogin(resetPasswordModel.Email, resetPasswordModel.Login);
+                    UserModel user = _userRepository.GetByEmailAndLogin(redefinePasswordModel.Email, redefinePasswordModel.Login);
                     if (user != null)
                     {
                         string newPassword = user.GenerateNewPassword();
-                        _userRepository.Update(user);
-                        TempData["SuccessMessage"] = "We have sent a new password to your registered email.";
+                        string message = $"Your new password is: {newPassword}";
+
+                        bool emailSent = _email.Sent(user.Email, "Register of Products - New Password", message);
+                        if (emailSent)
+                        {
+                            _userRepository.ToUpdate(user);
+                            TempData["SuccessMessage"] = "We have sent a new password to your registered email.";
+                        }
+                        else
+                        {
+                            TempData["ErrorMessage"] = $"It was not possible to send the email. Please try again.";
+                        }
                         return RedirectToAction("Index", "Login");
                     }
-                    TempData["ErrorMessage"] = "We were unable to reset your password, please verify the information you entered.";
+                    TempData["ErrorMessage"] = "We were unable to redefine your password, please verify the information you entered.";
                 }
                 return View("Index");
             }
             catch (Exception e)
             {
-                TempData["ErrorMessage"] = $"Oops, Couldn't reset your password, try again, error detail: {e.Message}";
+                TempData["ErrorMessage"] = $"Oops, Couldn't redefine your password, try again, error detail: {e.Message}";
                 return RedirectToAction("Index");
             }
            
