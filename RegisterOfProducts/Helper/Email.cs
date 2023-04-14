@@ -16,10 +16,10 @@ namespace RegisterOfProducts.Helper
             try
             {
                 string host = _configuration.GetValue<string>("SMTP:Host");
-                string name = _configuration.GetValue<string>("SMTP:Nome");
+                string name = _configuration.GetValue<string>("SMTP:Name");
                 string username = _configuration.GetValue<string>("SMTP:UserName");
-                string password = _configuration.GetValue<string>("SMTP:Senha");
-                int port = _configuration.GetValue<int>("SMTP:Porta");
+                string password = _configuration.GetValue<string>("SMTP:Password");
+                int port = _configuration.GetValue<int>("SMTP:Port");
 
                 MailMessage mail = new MailMessage()
                 {
