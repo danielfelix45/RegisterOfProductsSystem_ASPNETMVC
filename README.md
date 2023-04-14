@@ -19,7 +19,8 @@ This project has the basic functionalities of a CRUD (Create, Read, Update and D
 This project has pages for the following functions:
 
 - List all existing products and users in the database.
-- Register contact and/or user.
+- Register product and/or user.
 - Edit product and/or user.
 - Delete product and/or user.
 - Confirmation and deletion of a specific product and/or user.
+- Define password and change password.
